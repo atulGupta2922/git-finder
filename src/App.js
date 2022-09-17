@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import Navbar from './components/layouts/Navbar';
 import Users from './components/users/Users';
 import axios from 'axios';
+import Search from './components/users/Search';
 
 class App extends Component {
   state = {
@@ -24,7 +25,10 @@ class App extends Component {
     return (
       <div className='App'>
         <Navbar title='Git Finder' icon='fab fa-github' />
-        <Users userData={this.state.users} loading={this.state.loading} />
+        <div className='container'>
+          <Search />
+          <Users userData={this.state.users} loading={this.state.loading} />
+        </div>
       </div>
     );
   }
