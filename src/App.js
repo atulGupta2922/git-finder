@@ -10,15 +10,12 @@ class App extends Component {
     users: [],
     loading: false
   }
-  async componentDidMount() {
-    this.setState({
-      loading: true
-    });
-    const response = await axios.get('https://api.github.com/users')
-    this.setState({
-      loading: false,
-      users: response.data
-    })
+
+  searchUsers = async val => {
+    this.setState({loading: true});
+    const response = await axios.get(`${process.env.REACT_APP_GIT_BASE_URL}search/users?q=${val}&client_id=${process.env.REACT_APP_GIT_CLIENT_ID}&client_secret=${process.env.REACT_APP_GIT_CLIENT_SECRET}`)
+    this.setState({ users: response.data.items, loading: false })
+    return;
   }
 
   render() {
@@ -26,8 +23,8 @@ class App extends Component {
       <div className='App'>
         <Navbar title='Git Finder' icon='fab fa-github' />
         <div className='container'>
-          <Search />
-          <Users userData={this.state.users} loading={this.state.loading} />
+          <Search searchUsers={this.searchUsers} />
+          <Users userData={this.state.users} loading={this.state.loading}/>
         </div>
       </div>
     );

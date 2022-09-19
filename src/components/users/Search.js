@@ -13,7 +13,8 @@ class Search extends Component {
     }
 
     submit = e => {
-        const res = axios.get(`https://api.github.com/search/users?q=${this.state.text}`).then(result => console.log('data', result.data)); 
+       /*  const res = axios.get(`https://api.github.com/search/users?q=${this.state.text}`).then(result => console.log('data', result.data));  */
+       return this.props.searchUsers(this.state.text);
     }
 
     render() {
