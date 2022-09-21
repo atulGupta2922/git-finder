@@ -13,6 +13,11 @@ class App extends Component {
     alert: null,
   }
 
+  constructor() {
+    super();
+    console.log("constructor() called");
+  }  
+
   /**
    * Makes API call to fetch user by name
    * 
@@ -52,6 +57,7 @@ class App extends Component {
    * @returns 
    */
   render() {
+    console.log('render() called');
     const {alert, users, loading} = this.state;
     return (
       <div className='App'>
@@ -64,6 +70,19 @@ class App extends Component {
       </div>
     );
   }
+
+  componentDidMount() {
+    console.log('componentDidMount() called');
+  }
+
+  componentDidUpdate(){
+    console.log('componentDidUpdate() called');
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount() called');
+  }
+
 }
 
 export default App;
