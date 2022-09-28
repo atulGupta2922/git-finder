@@ -1,11 +1,17 @@
-import React, { Component } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+import { useParams } from 'react-router-dom';
+import GithubContext from '../../contexts/github/githubContext';
 
-class User extends Component {
-  render() {
-    return (
-      <div>{this.props.match.params.username}</div>
-    )
-  }
+const User = () => {
+  const { login } = useParams();
+  const githubContext = useContext(GithubContext);
+  const githubContextRef = useRef(useContext(GithubContext));
+  useEffect(() => {
+    githubContextRef.current.getUser(login)
+  }, [login]);
+  return (
+    <img src={githubContext.user.avatar_url} alt="text img" style={{width: '60px'}}/>
+  )
 }
 
-export default User
+export default User;

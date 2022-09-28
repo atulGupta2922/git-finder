@@ -7,6 +7,7 @@ import About from './components/pages/About';
 import GithubState from './contexts/github/GithubState';
 import AlertState from './contexts/alert/AlertState';
 import Home from './components/pages/Home';
+import User from './components/pages/User';
 
 class App extends Component {
 
@@ -24,10 +25,9 @@ class App extends Component {
               <div className='container'>
                 <Alert/>
                 <Routes>
-                  <Route exact path='/' element={<Home />}>
-                  </Route>
-                  <Route path='/about' element={<About/>}>
-                  </Route>
+                  <Route exact path='/' element={<Home />}/>
+                  <Route path='/about' element={<About/>}/>
+                  <Route path='/user/:login' element={<User/>}/>
                 </Routes>
               </div>
             </div>
