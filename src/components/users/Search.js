@@ -1,30 +1,40 @@
-import axios from "axios";
-import React, { Component } from "react";
+import React, { useState, useContext } from "react";
+import AlertContext from "../../contexts/alert/alertContext";
+import GithubContext from "../../contexts/github/githubContext";
 
-class Search extends Component {
-    state = {
-        text: ''
-    };
+const Search = (props) => {
+    const githubContext = useContext(GithubContext);
+    const alertContext = useContext(AlertContext);
+    const [text, setText] = useState('');
 
-    onInputChange = event => {
-        this.setState({
-            text: event.target.value
-        });
+    const onInputChange = event => {
+        setText(event.target.value);
     }
 
-    submit = e => {
-        const res = axios.get(`https://api.github.com/search/users?q=${this.state.text}`).then(result => console.log('data', result.data)); 
+    const submit = () => {
+        if(text === ''){
+            alertContext.setAlert('Please provide input', 'light');
+            return;
+        }
+        githubContext.searchUsers(text);
+        setText('');
+        return;
     }
 
-    render() {
-        return (
-            <div>
-                    <input type="text" name="text" placeholder="Search here..." 
-                    onChange={this.onInputChange}
-                    />
-                    <button onClick={this.submit} className="btn btn-dark btn-block">Search</button>
-            </div>
-        );
+    const clear = () => {
+        return githubContext.clearUsers();
     }
+
+    return (
+        <div>
+                <input type="text" id="searchInput" name="text" placeholder="Search here..." 
+                onChange={onInputChange}
+                />
+                <button onClick={submit} className="btn btn-dark btn-block">Search</button>
+                
+                {githubContext.users.length > 0 && <button onClick={clear} className="btn btn-light btn-block">Clear</button>}
+
+        </div>
+    );
 }
 export default Search;

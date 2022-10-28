@@ -1,37 +1,40 @@
 import './App.css';
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layouts/Navbar';
-import Users from './components/users/Users';
-import axios from 'axios';
-import Search from './components/users/Search';
+import Alert from './components/layouts/Alert';
+import About from './components/pages/About';
+import GithubState from './contexts/github/GithubState';
+import AlertState from './contexts/alert/AlertState';
+import Home from './components/pages/Home';
+import User from './components/pages/User';
 
 class App extends Component {
-  state = {
-    users: [],
-    loading: false
-  }
-  async componentDidMount() {
-    this.setState({
-      loading: true
-    });
-    const response = await axios.get('https://api.github.com/users')
-    this.setState({
-      loading: false,
-      users: response.data
-    })
-  }
 
+  /**
+   * Renders App component (lifecycle method)
+   * @returns 
+   */
   render() {
     return (
-      <div className='App'>
-        <Navbar title='Git Finder' icon='fab fa-github' />
-        <div className='container'>
-          <Search />
-          <Users userData={this.state.users} loading={this.state.loading} />
-        </div>
-      </div>
+      <GithubState>
+        <AlertState>
+          <Router>
+            <div className='App'>
+              <Navbar title='Git Finder' icon='fab fa-github' />
+              <div className='container'>
+                <Alert/>
+                <Routes>
+                  <Route exact path='/' element={<Home />}/>
+                  <Route path='/about' element={<About/>}/>
+                  <Route path='/user/:login' element={<User/>}/>
+                </Routes>
+              </div>
+            </div>
+          </Router>
+       </AlertState>
+      </GithubState>
     );
   }
 }
-
 export default App;
